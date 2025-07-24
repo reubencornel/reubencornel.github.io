@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Configuration Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            color: white;
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .output-section {
+            margin-top: 40px;
+            display: none;
+        }
+
+        .output-section.show {
+            display: block;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .copy-btn {
+            background: #27ae60;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #229954;
+            transform: translateY(-1px);
+        }
+
+        .json-output {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            border: 2px solid #34495e;
+        }
+
+        .info-box {
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .info-box h4 {
+            color: #2980b9;
+            margin-bottom: 8px;
+        }
+
+        .info-box p {
+            color: #34495e;
+            font-size: 0.95rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .output-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Home</a>
+        
+        <header>
+            <h1>MCP Configuration Generator</h1>
+            <p class="subtitle">Generate JSON configuration for Salesforce MCP Server</p>
+        </header>
+
+        <div class="main-content">
+            <div class="info-box">
+                <h4>📋 Instructions</h4>
+                <p>Enter your Connected App ID (Consumer Key) and MCP Server Name below. The tool will generate the JSON configuration needed for your MCP server setup.</p>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="connectedAppId">Connected App ID (Consumer Key):</label>
+                    <input type="text" id="connectedAppId" placeholder="Enter your Connected App ID..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mcpServerName">MCP Server Name:</label>
+                    <input type="text" id="mcpServerName" placeholder="Enter your MCP Server Name..." required>
+                </div>
+
+                <button type="button" class="btn" onclick="generateConfig()">Generate Configuration</button>
+            </div>
+
+            <div class="output-section" id="outputSection">
+                <div class="output-header">
+                    <h3>Generated Configuration</h3>
+                    <button class="copy-btn" onclick="copyToClipboard()">📋 Copy JSON</button>
+                </div>
+                <div class="json-output" id="jsonOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateConfig() {
+            const connectedAppId = document.getElementById('connectedAppId').value.trim();
+            const mcpServerName = document.getElementById('mcpServerName').value.trim();
+
+            if (!connectedAppId || !mcpServerName) {
+                alert('Please fill in both fields before generating the configuration.');
+                return;
+            }
+
+            const config = {
+                "mcpServers": {
+                    "salesforceMCP": {
+                        "command": "npx",
+                        "args": [
+                            "-y",
+                            "mcp-remote@0.1.17",
+                            `https://api.salesforce.com/platform/mcp/v1-beta.1/${mcpServerName}`,
+                            "8080",
+                            "--static-oauth-client-info",
+                            `{"client_id":"${connectedAppId}","client_secret":""}`
+                        ]
+                    }
+                }
+            };
+
+            const jsonString = JSON.stringify(config, null, 2);
+            document.getElementById('jsonOutput').textContent = jsonString;
+            document.getElementById('outputSection').classList.add('show');
+        }
+
+        function copyToClipboard() {
+            const jsonOutput = document.getElementById('jsonOutput');
+            const text = jsonOutput.textContent;
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    const copyBtn = document.querySelector('.copy-btn');
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    copyBtn.style.background = '#27ae60';
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                        copyBtn.style.background = '#27ae60';
+                    }, 2000);
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const copyBtn = document.querySelector('.copy-btn');
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = '✅ Copied!';
+                copyBtn.style.background = '#27ae60';
+                
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                    copyBtn.style.background = '#27ae60';
+                }, 2000);
+            }
+        }
+
+        // Allow Enter key to generate config
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateConfig();
+            }
+        });
+    </script>
+</body>
+</html> 
